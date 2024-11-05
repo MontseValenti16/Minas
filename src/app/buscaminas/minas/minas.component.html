@@ -1,0 +1,29 @@
+<div *ngIf="gameOver" class="game-over">¡Game Over!</div>
+
+<div class="grid-container">
+  <div class="grid">
+    <div *ngFor="let row of grid; let i = index" class="row">
+      <div *ngFor="let cell of row; let j = index" class="cell"
+        [class.revealed]="cell.isEncontrado"
+        [class.mine]="cell.isMina && cell.isEncontrado"
+        [class.flag]="cell.isMarcado && !cell.isEncontrado"
+        [attr.data-minas]="cell.MinasAdyacentes"
+        (click)="revealCell(i, j)"
+        (contextmenu)="toggleFlag(i, j); $event.preventDefault()">
+
+        <ng-container *ngIf="cell.isEncontrado && !cell.isMina">
+          <span *ngIf="cell.MinasAdyacentes > 0">{{ cell.MinasAdyacentes }}</span>
+        </ng-container>
+
+        <ng-container *ngIf="cell.isMarcado && !cell.isEncontrado">
+          🚩
+        </ng-container>
+
+        <ng-container *ngIf="cell.isEncontrado && cell.isMina">
+          💣
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+</div>
